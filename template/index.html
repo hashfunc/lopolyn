@@ -1,0 +1,16 @@
+<html>
+  <head>
+    <title>Lopolyn</title>
+  </head>
+  <body>
+    <div id="project"></div>
+    <script src="Lopolyn.js"></script>
+    <script>
+      Module.onRuntimeInitialized = function () {
+        const Lopolyn = Module.cwrap("Lopolyn", "string", []);
+        const element = document.getElementById("project");
+        element.innerText = Lopolyn();
+      };
+    </script>
+  </body>
+</html>
