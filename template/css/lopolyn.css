@@ -1,0 +1,33 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  box-sizing: border-box;
+  padding: 40px;
+}
+
+input#image-input {
+  display: none;
+}
+
+button.upload-button {
+  box-sizing: border-box;
+  width: 145px;
+  height: 40px;
+  background-color: #ffffff;
+  border: 1px solid #8f8f8f;
+  border-radius: 2px;
+  color: #4d4d4d;
+  cursor: pointer;
+}
+
+button.upload-button:hover {
+  background-color: #efefef;
+}

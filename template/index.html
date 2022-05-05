@@ -1,16 +1,29 @@
-<html>
+<!DOCTYPE html>
+<html lang="ko">
   <head>
     <title>Lopolyn</title>
+    <link rel="stylesheet" href="css/lopolyn.css" />
   </head>
   <body>
-    <div id="project"></div>
-    <script src="Lopolyn.js"></script>
-    <script>
-      Module.onRuntimeInitialized = function () {
-        const Lopolyn = Module.cwrap("Lopolyn", "string", []);
-        const element = document.getElementById("project");
-        element.innerText = Lopolyn();
-      };
-    </script>
+    <main>
+      <div>
+        <input
+          id="image-input"
+          type="file"
+          onchange="handleOnUpload(this.files)"
+        />
+        <button
+          class="upload-button"
+          type="button"
+          onclick="handleOnClickImageUpload()"
+        >
+          select image
+        </button>
+      </div>
+      <div>
+        <canvas id="preview"></canvas>
+      </div>
+    </main>
+    <script src="js/handler.js"></script>
   </body>
 </html>
