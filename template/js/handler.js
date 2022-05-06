@@ -8,19 +8,30 @@ function handleOnUpload(files) {
 }
 
 function preview(bitmap) {
-  const canvas = getPreviewCanvas();
-  const ctx = canvas.getContext("2d");
+  Module.API.BindCanvas("canvas#preview");
 
-  const ratio = bitmap.height / bitmap.width;
-  const width = Math.min(800, bitmap.width);
-  const height = width * ratio;
+  setPreviewCanvas(bitmap.width, bitmap.height);
 
-  canvas.width = width;
-  canvas.height = height;
+  const imageData = imageDataFromBitmap(bitmap);
 
-  ctx.drawImage(bitmap, 0, 0, width, height);
+  const buffer = Module.API.NewBuffer(bitmap.width * bitmap.height * 4);
+  Module.HEAPU8.set(imageData.data, buffer);
+  Module.API.Preview(buffer, imageData.width, imageData.height);
+  Module.API.DeleteBuffer(buffer);
 }
 
-function getPreviewCanvas() {
-  return document.querySelector("canvas#preview");
+function setPreviewCanvas(width, height) {
+  const previewCanvas = document.querySelector("canvas#preview");
+  previewCanvas.width = width;
+  previewCanvas.height = height;
+}
+
+function imageDataFromBitmap(bitmap) {
+  const canvas = document.createElement("canvas");
+  canvas.width = bitmap.width;
+  canvas.height = bitmap.height;
+
+  const ctx = canvas.getContext("2d");
+  ctx.drawImage(bitmap, 0, 0);
+  return ctx.getImageData(0, 0, bitmap.width, bitmap.height);
 }

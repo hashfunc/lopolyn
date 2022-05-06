@@ -24,6 +24,17 @@
         <canvas id="preview"></canvas>
       </div>
     </main>
+    <script src="Lopolyn.js"></script>
+    <script>
+      Module.onRuntimeInitialized = function () {
+        const API = {};
+        API.BindCanvas = this.cwrap("BindCanvas", "", ["string"]);
+        API.NewBuffer = this.cwrap("NewBuffer", "number", ["number", "number"]);
+        API.DeleteBuffer = this.cwrap("DeleteBuffer", "", ["number"]);
+        API.Preview = this.cwrap("Preview", "", ["number", "number", "number"]);
+        this.API = API;
+      };
+    </script>
     <script src="js/handler.js"></script>
   </body>
 </html>
