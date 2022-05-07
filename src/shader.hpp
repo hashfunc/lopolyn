@@ -30,7 +30,11 @@ uniform sampler2D u_Texture;
 varying vec2 v_TextureCoordinate;
 
 void main() {
-  gl_FragColor = texture2D(u_Texture, v_TextureCoordinate);
+  vec4 texture = texture2D(u_Texture, v_TextureCoordinate);
+
+  float grayscale = 0.2126 * texture.r + 0.7152 * texture.g + 0.0722 * texture.b;
+
+  gl_FragColor = vec4(vec3(grayscale), texture.a);
 }
 )";
 
