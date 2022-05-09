@@ -22,7 +22,7 @@ void main() {
 }
 )";
 
-auto FRAGMENT_SHADER_SOURCE = R"(
+auto GRAYSCALE_SHADER_SOURCE = R"(
 precision highp float;
 
 uniform sampler2D u_Texture;

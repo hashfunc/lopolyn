@@ -9,7 +9,7 @@ void Preview(uint8_t* buffer, int width, int height)
 		return;
 	}
 
-	auto fragmentShader = CreateShader(GL_FRAGMENT_SHADER, &FRAGMENT_SHADER_SOURCE);
+	auto fragmentShader = CreateShader(GL_FRAGMENT_SHADER, &GRAYSCALE_SHADER_SOURCE);
 	if (fragmentShader == -1)
 	{
 		glDeleteShader(vertexShader);
