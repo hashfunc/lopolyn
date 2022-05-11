@@ -9,7 +9,10 @@ void Preview(uint8_t* buffer, int width, int height)
 		return;
 	}
 
-	auto fragmentShader = CreateShader(GL_FRAGMENT_SHADER, &GRAYSCALE_SHADER_SOURCE);
+	auto gaussianFilter = GaussianFilter(5);
+
+	auto fragmentShaderSource = gaussianFilter.GetShaderSource();
+	auto fragmentShader = CreateShader(GL_FRAGMENT_SHADER, &fragmentShaderSource);
 	if (fragmentShader == -1)
 	{
 		glDeleteShader(vertexShader);
@@ -25,6 +28,9 @@ void Preview(uint8_t* buffer, int width, int height)
 	}
 
 	auto coordinateLocation = glGetAttribLocation(program, "a_Coordinate");
+
+	auto textureSizeLocation = glGetUniformLocation(program, "u_TextureSize");
+	auto kernelLocation = glGetUniformLocation(program, "u_Kernel");
 
 	GLuint coordinateBuffer[1];
 	glGenBuffers(1, coordinateBuffer);
@@ -44,6 +50,9 @@ void Preview(uint8_t* buffer, int width, int height)
 	glEnableVertexAttribArray(coordinateLocation);
 	glBindBuffer(GL_ARRAY_BUFFER, coordinateBuffer[0]);
 	glVertexAttribPointer(coordinateLocation, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, nullptr);
+
+	glUniform2f(textureSizeLocation, width, height);
+	glUniform1fv(kernelLocation, gaussianFilter.GetWindow(), gaussianFilter.GetKernel());
 
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 }

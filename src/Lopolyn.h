@@ -4,6 +4,7 @@
 #include "GLES2/gl2.h"
 #include "emscripten.h"
 
+#include "filter/gaussian.h"
 #include "render.h"
 #include "shader.hpp"
 
