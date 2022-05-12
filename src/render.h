@@ -9,6 +9,6 @@
 GLuint CreateShader(GLenum glType, const char* const* source);
 GLuint CreateProgram(GLuint vertexShader, GLuint fragmentShader);
 void SetRectangle(GLuint buffer, float x, float y, float width, float height);
-void SetTexture(GLuint textures, uint8_t* buffer, int width, int height);
+void SetTexture(GLuint texture, uint8_t* pixels, int width, int height);
 
 #endif//LOPOLYN_RENDER_H
