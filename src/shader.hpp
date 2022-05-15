@@ -22,6 +22,20 @@ void main() {
 }
 )";
 
+auto FRAGMENT_SHADER_SOURCE = R"(
+precision highp float;
+
+uniform sampler2D u_Texture;
+
+varying vec2 v_TextureCoordinate;
+
+void main() {
+  vec4 texture = texture2D(u_Texture, v_TextureCoordinate);
+
+  gl_FragColor = texture;
+}
+)";
+
 auto GRAYSCALE_SHADER_SOURCE = R"(
 precision highp float;
 

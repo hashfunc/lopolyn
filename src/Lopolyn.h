@@ -6,6 +6,7 @@
 
 #include "filter/gaussian.h"
 #include "render.h"
+#include "render/shader.h"
 #include "shader.hpp"
 
 extern "C" {

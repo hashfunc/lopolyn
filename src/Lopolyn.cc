@@ -3,34 +3,27 @@
 EMSCRIPTEN_KEEPALIVE
 void Preview(uint8_t* buffer, int width, int height)
 {
-	auto vertexShader = CreateShader(GL_VERTEX_SHADER, &VERTEX_SHADER_SOURCE);
-	if (vertexShader == -1)
+	auto vertexShader = Shader(GL_VERTEX_SHADER, &VERTEX_SHADER_SOURCE);
+	if (!vertexShader.GetStatus())
 	{
+		printf("%s", vertexShader.GetError());
 		return;
 	}
 
-	auto gaussianFilter = GaussianFilter(5);
-
-	auto fragmentShaderSource = gaussianFilter.GetShaderSource();
-	auto fragmentShader = CreateShader(GL_FRAGMENT_SHADER, &fragmentShaderSource);
-	if (fragmentShader == -1)
+	auto fragmentShader = Shader(GL_FRAGMENT_SHADER, &FRAGMENT_SHADER_SOURCE);
+	if (!fragmentShader.GetStatus())
 	{
-		glDeleteShader(vertexShader);
+		printf("%s", fragmentShader.GetError());
 		return;
 	}
 
-	auto program = CreateProgram(vertexShader, fragmentShader);
+	auto program = CreateProgram(vertexShader.Get(), fragmentShader.Get());
 	if (program == -1)
 	{
-		glDeleteShader(vertexShader);
-		glDeleteShader(fragmentShader);
 		return;
 	}
 
 	auto coordinateLocation = glGetAttribLocation(program, "a_Coordinate");
-
-	auto textureSizeLocation = glGetUniformLocation(program, "u_TextureSize");
-	auto kernelLocation = glGetUniformLocation(program, "u_Kernel");
 
 	GLuint coordinateBuffer[1];
 	glGenBuffers(1, coordinateBuffer);
@@ -50,9 +43,6 @@ void Preview(uint8_t* buffer, int width, int height)
 	glEnableVertexAttribArray(coordinateLocation);
 	glBindBuffer(GL_ARRAY_BUFFER, coordinateBuffer[0]);
 	glVertexAttribPointer(coordinateLocation, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, nullptr);
-
-	glUniform2f(textureSizeLocation, width, height);
-	glUniform1fv(kernelLocation, gaussianFilter.GetWindow(), gaussianFilter.GetKernel());
 
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 }
